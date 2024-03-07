@@ -6,25 +6,15 @@ package com.example;
  */
 
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.ConnectionString;
-import com.mongodb.DBObject;
-import com.mongodb.Mongo;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
-import com.mongodb.MongoCredential;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 
-import java.sql.Time;
-import java.sql.Timestamp;
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import org.bson.Document;
-import org.bson.types.ObjectId;
 
 public class Forums {
     

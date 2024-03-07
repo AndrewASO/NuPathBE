@@ -3,7 +3,7 @@ package com.example;
 /**
  * This takes incoming information from the backend, and converts it to JSON so that
  * the frontend can read the information and display it on the website.
- * @date: 12-3-2023
+ * @Date: 12-3-2023
  */
 
 

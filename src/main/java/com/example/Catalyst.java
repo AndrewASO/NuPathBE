@@ -6,11 +6,6 @@ package com.example;
 
 
 //
-//Not needed remember to remove later
-//
-
-//package mongodbclient;
-
 
 import org.jsoup.*;
 import org.jsoup.nodes.Document;

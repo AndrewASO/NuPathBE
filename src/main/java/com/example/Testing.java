@@ -17,6 +17,8 @@ import java.io.IOException;
 
 import javax.script.ScriptException;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 
@@ -26,7 +28,11 @@ public class Testing {
   
     public static void main(String[] args) throws ScriptException, IOException{
 
-        MongoClientURI uri = new MongoClientURI("mongodb+srv://nuPathLogin:08426%21%23%25Nnn@nupath.gkq49uo.mongodb.net/test");
+        Dotenv dotenv = Dotenv.load();
+        String mongodbUrl = dotenv.get("MONGODB_URL");
+        System.out.println(mongodbUrl);
+
+        MongoClientURI uri = new MongoClientURI(mongodbUrl);
         MongoClient mongoClient = new MongoClient(uri);
 
         //System.out.println(mongoClient);
