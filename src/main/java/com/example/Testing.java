@@ -30,7 +30,6 @@ public class Testing {
 
         Dotenv dotenv = Dotenv.load();
         String mongodbUrl = dotenv.get("MONGODB_URL");
-        System.out.println(mongodbUrl);
 
         MongoClientURI uri = new MongoClientURI(mongodbUrl);
         MongoClient mongoClient = new MongoClient(uri);

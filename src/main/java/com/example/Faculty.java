@@ -1,60 +1,62 @@
 package com.example;
 
+
 /**
- * This allows the user to select a faculty member and then update it to the mongodb, and then whenever the 
- * leaderboard decides to update, then it'll be updated with the information saved to MongoDB.
+ * Manages faculty selections for users, enabling updates to MongoDB. It integrates with the system's
+ * task management and leaderboard update mechanisms.
  * @Date: 4-3-2023
  */
 
 
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.ConnectionString;
-import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
-import com.mongodb.MongoCredential;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.bson.Document;
-import org.bson.types.ObjectId;
-
+ 
 import java.util.ArrayList;
-
-
-
 
 /**
- * 
+ * The Faculty class represents the functionality for users to select faculty members
+ * and updates these selections to a MongoDB database. It's part of the task management system,
+ * influencing how leaderboard updates are made based on user selections.
  */
-public class Faculty implements Task{
+public class Faculty implements Task {
 
-    private ArrayList<String> facultyNames;
-    private User user;
-    private GetDbCollection mongoDB = new GetDbCollection();
-    private MongoClient mongoClient;
+    private ArrayList<String> facultyNames; // Stores the names of selected faculty members
+    private User user; // The user making the selection
+    private GetDbCollection mongoDB = new GetDbCollection(); // Utility for accessing MongoDB collections
+    private MongoClient mongoClient; // MongoDB client for database operations
 
-
-    public Faculty(User user){
+    /**
+     * Initializes a new instance of the Faculty class for a given user.
+     * 
+     * @param user The user associated with faculty selections.
+     */
+    public Faculty(User user) {
         this.user = user;
-        this.mongoClient = mongoClient;
+        // Note: The original constructor does not assign mongoClient passed as a parameter.
+        // If mongoClient is intended to be passed, the constructor signature and assignment should be updated accordingly.
     }
 
-    public void addFaculty(String faculty){
+    /**
+     * Records a faculty member selected by the user.
+     * 
+     * @param faculty The name of the faculty member selected.
+     */
+    public void addFaculty(String faculty) {
+        // Potentially intended to add to facultyNames list; currently, it updates the user's faculty selection.
         this.user.setFacultySelection(faculty);
     }
 
-
-
-    public void completeTask(){
-
-        MongoCollection<Document> dormCollection = mongoDB.returnCollection("Tasks", "FacultySelection", mongoClient);
-        Document document = new Document("Username", user.getUsername() ).append("Display Name", user.getDisplayName() );
-        dormCollection.insertOne(document);
+    /**
+     * Completes the faculty selection task by inserting the user's choice into a MongoDB collection.
+     * This action supports the integration with the system's leaderboard, which can be updated based
+     * on the stored faculty selections.
+     */
+    public void completeTask() {
+        // Note: Variable name corrected from dormCollection to facultyCollection for clarity.
+        MongoCollection<Document> facultyCollection = mongoDB.returnCollection("Tasks", "FacultySelection", mongoClient);
+        Document document = new Document("Username", user.getUsername()).append("Display Name", user.getDisplayName());
+        facultyCollection.insertOne(document);
     }
-
 }

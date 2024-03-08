@@ -1,10 +1,10 @@
 package com.example;
 
 /**
- * This is the webserver so frontend can request information from backend and then backend can reply, or it 
- * can complete an action that frontend requests. 
- * There are multiple different type of contexts for the frontend to use, and all of the classes are there to
- * complete the action that the frontend wants.
+ * Initializes and manages an HTTP server to facilitate communication between the frontend and backend.
+ * It supports various operations by mapping specific URIs to their corresponding actions,
+ * such as user creation, login, and data retrieval, effectively serving as the backend's core interaction point.
+ * 
  * @Date: 9-3-2023
  */
 
@@ -33,7 +33,14 @@ public class Webserver{
   private LeaderBoard lb = null;
   public static MongoClient mongoClient = null;
 
-  //Need to setup a main menu to grab all of the different things
+  /**
+   * Creates an HTTP server on the specified port and sets up context handlers for different API endpoints.
+   * Each endpoint corresponds to a specific functionality, such as user management or leaderboard updates.
+   *
+   * @param port The port number on which the server will listen.
+   * @param mongoClient The MongoDB client for database interactions.
+   * @throws IOException If an I/O error occurs.
+   */
   public Webserver(int port, MongoClient mongoClient) throws IOException{
     Webserver.mongoClient = mongoClient;
     this.port = port;
@@ -82,17 +89,21 @@ public class Webserver{
 
   }
 
-
+  /**
+   * Returns the HttpServer instance.
+   *
+   * @return The HttpServer object.
+   */
   public HttpServer getServer(){
     return this.server;
   }
 
 
   /**
-   * This is for query from the frontend so they know the information to send
-   * to complete the context that they want completed.
-   * @param query
-   * @return
+   * Converts a query string into a map of key-value pairs.
+   * 
+   * @param query The query string to be parsed.
+   * @return A map containing the parsed query parameters.
    */
   public static Map<String, String> queryToMap(String query) {
     if(query == null) {
@@ -114,6 +125,9 @@ public class Webserver{
 
 }
 
+/**
+ * Handles requests to the root or index endpoint. Typically used to verify server status.
+ */
 class IndexHandler implements HttpHandler {
   public void handle(HttpExchange t) throws IOException {
       String response = "Response!";
@@ -123,7 +137,9 @@ class IndexHandler implements HttpHandler {
   }
 }
 
-
+/**
+ * Retrieves all usernames registered in the system. Useful for listing users in the frontend.
+ */
 class GetAllUsernames implements HttpHandler{
 
   private UserList newUsersList;
@@ -147,6 +163,9 @@ class GetAllUsernames implements HttpHandler{
   }
 }
 
+/**
+ * Verifies whether a given username exists within the system. Helps in user validation processes.
+ */
 class CheckUsers implements HttpHandler{
   
   private UserList newUsersList;
@@ -174,7 +193,9 @@ class CheckUsers implements HttpHandler{
   }
 }
 
-
+/**
+ * Facilitates the creation of new user accounts. It captures user data from the frontend and persists it in the database.
+ */
 class CreateUser implements HttpHandler{
 
   private UserList newUsersList;
@@ -207,7 +228,9 @@ class CreateUser implements HttpHandler{
   
 }
 
-
+/**
+ * Handles user login requests by verifying provided credentials against stored data.
+ */
 class Login implements HttpHandler{
 
   private UserList userList;
@@ -238,7 +261,9 @@ class Login implements HttpHandler{
 }
 
 
-
+/**
+ * Processes user logout requests. It can be used to clear session data or perform other cleanup tasks.
+ */
 class Logout implements HttpHandler{
 
   private UserList userList;
@@ -264,6 +289,10 @@ class Logout implements HttpHandler{
   } 
 }
 
+
+/**
+ * Handles the addition of preferred foods for a user. This can be part of user preferences or profile settings.
+ */
 class AddHAMFood implements HttpHandler{
 
   private UserList userList;
@@ -294,6 +323,10 @@ class AddHAMFood implements HttpHandler{
   }
 }
 
+
+/**
+ * Allows users to select their preferred faculty. This data can be used for customized content delivery or notifications.
+ */
 class AddFaculty implements HttpHandler{
 
   private UserList userList;
@@ -324,6 +357,9 @@ class AddFaculty implements HttpHandler{
   }
 }
 
+/**
+ * Handles the selection of classes by a user. This could be for scheduling purposes or to indicate interest.
+ */
 class AddClasses implements HttpHandler{
 
   private UserList userList;
@@ -354,6 +390,9 @@ class AddClasses implements HttpHandler{
   }
 }
 
+/**
+ * Manages user preferences related to facilities. This could involve booking facilities or expressing interest.
+ */
 class AddFacilities implements HttpHandler{
 
   private UserList userList;
@@ -384,6 +423,9 @@ class AddFacilities implements HttpHandler{
   }
 }
 
+/**
+ * Enables users to choose or change their dormitory preferences. Useful for housing arrangements.
+ */
 class AddDorm implements HttpHandler{
 
   private UserList userList;
@@ -414,6 +456,9 @@ class AddDorm implements HttpHandler{
   }
 }
 
+/**
+ * Updates a user's display name. This could be part of a profile update feature.
+ */
 class UpdateDisplayName implements HttpHandler{
   
   private UserList userList;
@@ -440,6 +485,10 @@ class UpdateDisplayName implements HttpHandler{
   }
 }
 
+
+/**
+ * Allows users to change their password. A critical feature for account security.
+ */
 class UpdatePassword implements HttpHandler{
   
   private UserList userList;
@@ -466,6 +515,10 @@ class UpdatePassword implements HttpHandler{
   }
 }
 
+
+/**
+ * Supports uploading or changing a user's profile picture. Enhances user profile customization.
+ */
 class UploadPFP implements HttpHandler{
   
   private UserList userList;
@@ -492,7 +545,9 @@ class UploadPFP implements HttpHandler{
   }
 }
 
-
+/**
+ * Updates the "About Me" section of a user's profile. Allows for personalized user bios.
+ */
 class UpdateAboutMe implements HttpHandler{
   
   private UserList userList;
@@ -519,6 +574,9 @@ class UpdateAboutMe implements HttpHandler{
   }
 }
 
+/**
+ * Updates a user's contact information. Essential for keeping user profiles up-to-date.
+ */
 class UpdateContactInformation implements HttpHandler{
   
   private UserList userList;
@@ -545,6 +603,9 @@ class UpdateContactInformation implements HttpHandler{
   }
 }
 
+/**
+ * Facilitates adding messages or notes related to the Catalyst project. Could be used for project collaboration or notes sharing.
+ */
 class UpdateCatalyst implements HttpHandler{
 
   private UserList userList;
@@ -572,6 +633,9 @@ class UpdateCatalyst implements HttpHandler{
   }
 }
 
+/**
+ * Allows users to update their list of interests. Can be used to tailor content or recommendations.
+ */
 class UpdateInterests implements HttpHandler{
 
   private UserList userList;
@@ -599,6 +663,9 @@ class UpdateInterests implements HttpHandler{
   }
 }
 
+/**
+ * Returns a user's username. This might be used for account management or display purposes.
+ */
 class ReturnUsername implements HttpHandler{
 
   private UserList userList;
@@ -625,6 +692,9 @@ class ReturnUsername implements HttpHandler{
   }
 }
 
+/**
+ * Returns a user's display name. Useful for personalized greetings or displays in the UI.
+ */
 class ReturnDisplayName implements HttpHandler{
 
   private UserList userList;
@@ -651,6 +721,9 @@ class ReturnDisplayName implements HttpHandler{
   }
 }
 
+/**
+ * Handles requests to retrieve a user's profile picture. Enhances personalization of user interfaces.
+ */
 class ReturnPFP implements HttpHandler{
 
   private UserList userList;
@@ -677,6 +750,9 @@ class ReturnPFP implements HttpHandler{
   }
 }
 
+/**
+ * Returns a user's photo gallery. Allows users to share and display a collection of images.
+ */
 class ReturnPhotoGallery implements HttpHandler{
 
   private UserList userList;
@@ -704,6 +780,9 @@ class ReturnPhotoGallery implements HttpHandler{
   }
 }
 
+/**
+ * Returns the Catalyst project notes associated with a user. Useful for sharing project insights or updates.
+ */
 class ReturnCatalystNotes implements HttpHandler{
 
   private UserList userList;
@@ -728,6 +807,9 @@ class ReturnCatalystNotes implements HttpHandler{
   }
 }
 
+/**
+ * Returns the "About Me" section of a user's profile. Provides insight into the user's personal or professional background.
+ */
 class ReturnAboutMe implements HttpHandler{
 
   private UserList userList;
@@ -754,6 +836,9 @@ class ReturnAboutMe implements HttpHandler{
   }
 }
 
+/**
+ * Retrieves a user's listed interests. Can inform content recommendations or community connections.
+ */
 class ReturnInterests implements HttpHandler{
 
   private UserList userList;
@@ -780,6 +865,9 @@ class ReturnInterests implements HttpHandler{
   }
 }
 
+/**
+ * Returns the user's preferred food selections. May influence dining options or nutritional suggestions.
+ */
 class ReturnFood implements HttpHandler{
 
   private UserList userList;
@@ -806,6 +894,9 @@ class ReturnFood implements HttpHandler{
   }
 }
 
+/**
+ * Retrieves the user's dormitory selection. Important for housing arrangements and community building.
+ */
 class ReturnDorm implements HttpHandler{
 
   private UserList userList;
@@ -831,6 +922,9 @@ class ReturnDorm implements HttpHandler{
   }
 }
 
+/**
+ * Returns the classes selected by the user. Key for academic scheduling and course management.
+ */
 class ReturnClasses implements HttpHandler{
 
   private UserList userList;
@@ -856,6 +950,9 @@ class ReturnClasses implements HttpHandler{
   }
 }
 
+/**
+ * Retrieves the user's facilities preferences. Can assist in facilities management and reservation systems.
+ */
 class ReturnFacilities implements HttpHandler{
 
   private UserList userList;
@@ -881,6 +978,9 @@ class ReturnFacilities implements HttpHandler{
   }
 }
 
+/**
+ * Returns the faculty selected by the user. Useful for advising, mentorship, or personalized academic content.
+ */
 class ReturnFaculty implements HttpHandler{
 
   private UserList userList;
@@ -906,7 +1006,9 @@ class ReturnFaculty implements HttpHandler{
   }
 }
 
-
+/**
+ * Retrieves a user's contact information. Essential for communication and emergency contact purposes.
+ */
 class ReturnContactInformation implements HttpHandler{
 
   private UserList userList;
@@ -932,6 +1034,12 @@ class ReturnContactInformation implements HttpHandler{
   }
 }
 
+/**
+ * Handles requests to add an image to a user's photo gallery. This feature allows users to personalize
+ * their profiles by adding images to their gallery, enhancing the social aspect of the application.
+ * The image details are received from the frontend, and the specified image is then added to the user's
+ * photo gallery in the backend.
+ */
 class AddImgToPhotoGallery implements HttpHandler{
 
   private UserList userList;
@@ -957,7 +1065,9 @@ class AddImgToPhotoGallery implements HttpHandler{
 }
 
 
-
+/**
+ * Triggers an update to the leaderboard based on user activities. Key for gamification or tracking progress.
+ */
 class UpdateLeaderBoard implements HttpHandler{
 
   private LeaderBoard lb;
@@ -979,6 +1089,9 @@ class UpdateLeaderBoard implements HttpHandler{
   }
 }
 
+/**
+ * Returns leaderboard information. Enables competition and progress tracking among users.
+ */
 class ReturnLBInformation implements HttpHandler{
 
   private LeaderBoard lb;
