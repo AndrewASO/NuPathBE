@@ -48,17 +48,16 @@ Brief descriptions of key components:
 
 ### Prerequisites
 
-- Java JDK 16.0.2
+- Java JDK 16.0.2 or higher
 - MongoDB 3.12.12
 - Maven 
 
-### Installation
+## Running the Project
 
-1. Clone the repository: `git clone (https://github.com/AndrewASO/NuPathBE)`.
-2. Navigate to the project directory: `cd src/main/java/com/example`.
-3. Build the project with Maven: `mvn clean install`.
+Due to security considerations and to ensure the privacy of database credentials, this project is configured to run directly from a compiled JAR file which encapsulates the necessary environment settings. This approach simplifies the setup process and avoids exposing sensitive information through public repositories.
 
-### Running the Project
+To run the NuPath Backend, please follow these steps:
 
 ```bash
 java -jar NuPathFixed.jar
+
